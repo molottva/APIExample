@@ -58,7 +58,7 @@ public class SoapTestBase {
             int indexTwo = response.indexOf("</return>") + 9;
             String responseBody = response.substring(indexOne, indexTwo)
                     .replaceAll("return", "Token");
-//            String responseBody = response.replaceAll("return", "Token");
+//            response = response.replaceAll("return", "Token");
             Token token = null;
             try {
                 token = mapper.readValue(responseBody, Token.class);
