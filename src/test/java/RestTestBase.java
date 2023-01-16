@@ -7,9 +7,9 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class APITestBase {
+public class RestTestBase {
     private static RequestSpecification specification;
-    private static String baseURI = "http://sopromat-pc/pm/devprom_webtest/api/v1/";
+    private static String baseURI = "http://sopromat-pc/pm/devprom_webtest/api/v1";
     private static String authKey = "bbefe1e6544b80b801808bc4e2b70325";
     //Включение игнорирования неизвестных полей в JSON при десериализации в Object
 //    private static ObjectMapper mapper = new ObjectMapper()
@@ -34,7 +34,7 @@ public class APITestBase {
         Issue[] before = given()
                 .spec(specification)
                 .when()
-                .get("issues")
+                .get("/issues")
                 .then()
                 .statusCode(200)
                 .extract().as(Issue[].class);
@@ -43,21 +43,18 @@ public class APITestBase {
                 .spec(specification)
                 .body(testIssue)
                 .when()
-                .post("issues")
+                .post("/issues")
                 .then()
                 .statusCode(200)
-                .extract()
-                .as(Issue.class);
+                .extract().as(Issue.class);
 
         Issue[] after = given()
                 .spec(specification)
                 .when()
-                .get("issues")
+                .get("/issues")
                 .then()
                 .statusCode(200)
                 .extract().as(Issue[].class);
-
-        Issue s = after[after.length - 1];
 
         assertEquals(before.length + 1, after.length);
 //        assertEquals(postIssue, testIssue);
